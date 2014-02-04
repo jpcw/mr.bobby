@@ -344,7 +344,8 @@ class Question(object):
                 elif self.required and not correct_answer:
                     if non_interactive:
                         raise ConfigurationError(
-                            'non-interactive mode: question %s is required but not answered.' % self.name)
+                            'non-interactive mode: question %s '
+                            'is required but not answered.' % self.name)
                     else:
                         # TODO: we don't cover this as coverage seems to ignore
                         # it
@@ -360,7 +361,8 @@ class Question(object):
                     except ValidationError as exc:
                         if non_interactive:
                             raise ConfigurationError(
-                                'non-interactive mode: question %s failed validation.' % self.name)
+                                'non-interactive mode: '
+                                'question %s failed validation.' % self.name)
                         else:
                             correct_answer = None
                             print("ERROR: " + str(exc))
