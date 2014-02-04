@@ -103,7 +103,7 @@ def render_template(fs_source, fs_target_dir, variables, verbose, renderer):
                 source_output = f.read()
                 output = renderer(source_output, variables)
                 if source_output.endswith('\n') and not output.endswith('\n'):
-                    output += '\n'
+                    output += '\n'  # pragma: no cover
             with codecs.open(fs_target_path, 'w', 'utf-8') as fs_target:
                 fs_target.write(output)
             os.chmod(fs_target_path, fs_source_mode)
