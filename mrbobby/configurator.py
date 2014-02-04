@@ -202,18 +202,18 @@ class Configurator(object):
                  current_func(self)
 
     def parse_questions(self, config, order):
-        q = []
+        questions = []
 
         for question_key in order:
             key_parts = question_key.split('.')
-            c = dict(config)
+            conf = dict(config)
             for k in key_parts:
-                c = c[k]
+                conf = conf[k]
             # filter out subnamespaces
-            c = dict([(k, v) for k, v in c.items() if not isinstance(v, dict)])
-            question = Question(name=question_key, **c)
-            q.append(question)
-        return q
+            conf = dict([(k, v) for k, v in conf.items() if not isinstance(v, dict)])
+            question = Question(name=question_key, **conf)
+            questions.append(question)
+        return questions
 
     def print_questions(self):  # pragma: no cover
         for line in pretty_format_config(self.raw_questions):
