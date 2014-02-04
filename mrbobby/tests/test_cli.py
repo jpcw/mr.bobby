@@ -107,7 +107,7 @@ overriden_by_file_2 = file2
                       template_dir)
         with open(os.path.join(self.output_dir, 'vars')) as f:
             output = f.read()
-            self.assertEquals(output, "glob\nfile\nfile1\nglob2\nfile1\nfile2\n")
+            self.assertEquals(output, "glob\nfile\nfile1\nglob2\nfile1\nfile2")
 
         # cleanup
         os.remove(tempconfig)
