@@ -2,7 +2,7 @@
 
 from shutil import rmtree
 from tempfile import mkdtemp
-import codecs
+#import codecs
 import os
 import stat
 import unittest
@@ -102,14 +102,16 @@ class RenderStructureTest(unittest.TestCase):
             renderer=python_formatting_renderer,
         )
 
-        if six.PY3:  # pragma: no cover
-            file_name = 'mapča/ća'
-            expected = 'Ćača.'
-        else:  # pragma: no cover
-            file_name = 'mapča/ća'.decode('utf-8')
-            expected = 'Ćača.'.decode('utf-8')
         # TODO correct this test
-        # with codecs.open(os.path.join(self.fs_tempdir, file_name), 'r', 'utf-8') as f:
+        # if six.PY3:  # pragma: no cover
+        #     file_name = 'mapča/ća'
+        #     expected = 'Ćača.'
+        # else:  # pragma: no cover
+        #     file_name = 'mapča/ća'.decode('utf-8')
+        #     expected = 'Ćača.'.decode('utf-8')
+
+        # with codecs.open(os.path.join(self.fs_tempdir,
+        #                                 file_name), 'r', 'utf-8') as f:
         #     self.assertEquals(f.read(), expected)
 
     def test_string_replacement(self):
@@ -198,7 +200,9 @@ class RenderTemplateTest(unittest.TestCase):
     def tearDown(self):
         rmtree(self.fs_tempdir)
 
-    def call_FUT(self, template, variables, output_dir=None, verbose=False, renderer=None):
+    def call_FUT(self, template, variables, output_dir=None,
+                 verbose=False, renderer=None):
+
         from ..rendering import render_template
         from ..rendering import python_formatting_renderer
 
@@ -230,10 +234,13 @@ class RenderTemplateTest(unittest.TestCase):
                 self.assertEqual(f1.read(), f2.read())
 
     def test_render_template(self):
-        """if the source is a template, it is rendered and the target file drops
-        the `.bobby` suffix."""
-        fs_source = os.path.join(self.fs_templates,
-                                 'unbound/usr/local/etc/unbound/unbound.conf.bobby')
+        """
+        If the source is a template, it is rendered and the target file drops
+        the `.bobby` suffix.
+        """
+        local_path = 'unbound/usr/local/etc/unbound/unbound.conf.bobby'
+        fs_source = os.path.join(self.fs_templates, local_path)
+
         fs_rendered = self.call_FUT(
             fs_source,
             dict(ip_addr='192.168.0.1',
@@ -242,8 +249,9 @@ class RenderTemplateTest(unittest.TestCase):
         self.assertTrue('interface: 192.168.0.1' in open(fs_rendered).read())
 
     def test_rendered_permissions_preserved(self):
-        fs_source = os.path.join(self.fs_templates,
-                                 'unbound/usr/local/etc/unbound/unbound.conf.bobby')
+        local_path = 'unbound/usr/local/etc/unbound/unbound.conf.bobby'
+        fs_source = os.path.join(self.fs_templates, local_path)
+
         os.chmod(fs_source, 771)
         fs_rendered = self.call_FUT(
             fs_source,
