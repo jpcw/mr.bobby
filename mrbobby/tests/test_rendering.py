@@ -25,7 +25,7 @@ class RenderStructureTest(unittest.TestCase):
         rmtree(self.fs_tempdir)
 
     def call_FUT(self, template, variables, output_dir=None, verbose=True,
-            renderer=None, ignored_files=[]):
+                 renderer=None, ignored_files=[]):
         from ..rendering import render_structure
         from ..rendering import jinja2_renderer
 
@@ -52,7 +52,8 @@ class RenderStructureTest(unittest.TestCase):
                  access_control='10.0.1.0/16 allow'),
             renderer=python_formatting_renderer,
         )
-        self.assertTrue(os.path.exists('%s/%s' % (self.fs_tempdir, 'usr/local/etc')))
+        self.assertTrue(os.path.exists('%s/%s' %
+                        (self.fs_tempdir, 'usr/local/etc')))
 
     def test_skip_mrbobbyini_copying(self):
         self.call_FUT(
@@ -60,15 +61,18 @@ class RenderStructureTest(unittest.TestCase):
             dict(foo='123'),
         )
         self.assertTrue(os.path.exists('%s/%s' % (self.fs_tempdir, 'test')))
-        self.assertFalse(os.path.exists('%s/%s' % (self.fs_tempdir, '.mrbobby.ini')))
+        self.assertFalse(os.path.exists('%s/%s' %
+                         (self.fs_tempdir, '.mrbobby.ini')))
 
     def test_ds_store(self):
         self.call_FUT(
             os.path.join(self.fs_templates, 'ds_store'),
             dict(),
         )
-        self.assertFalse(os.path.exists('%s/%s' % (self.fs_tempdir, '.mrbobby.ini')))
-        self.assertFalse(os.path.exists('%s/%s' % (self.fs_tempdir, '.DS_Store')))
+        self.assertFalse(os.path.exists('%s/%s' %
+                         (self.fs_tempdir, '.mrbobby.ini')))
+        self.assertFalse(os.path.exists('%s/%s' %
+                         (self.fs_tempdir, '.DS_Store')))
 
     def test_ignored(self):
         self.call_FUT(
@@ -76,11 +80,14 @@ class RenderStructureTest(unittest.TestCase):
             dict(),
             ignored_files=['ignored', '*.txt', '.mrbobby.ini'],
         )
-        self.assertFalse(os.path.exists('%s/%s' % (self.fs_tempdir, '.mrbobby.ini')))
-        self.assertFalse(os.path.exists('%s/%s' % (self.fs_tempdir, 'ignored')))
+        self.assertFalse(os.path.exists('%s/%s' %
+                         (self.fs_tempdir, '.mrbobby.ini')))
+        self.assertFalse(os.path.exists('%s/%s' %
+                         (self.fs_tempdir, 'ignored')))
         self.assertFalse(os.path.exists('%s/%s' % (self.fs_tempdir,
-            'ignored.txt')))
-        self.assertTrue(os.path.exists('%s/%s' % (self.fs_tempdir, 'not_ignored')))
+                                                   'ignored.txt')))
+        self.assertTrue(os.path.exists('%s/%s' %
+                        (self.fs_tempdir, 'not_ignored')))
 
     def test_encoding_is_utf8(self):
         from ..rendering import python_formatting_renderer
@@ -114,8 +121,10 @@ class RenderStructureTest(unittest.TestCase):
             verbose=False,
             renderer=python_formatting_renderer,
         )
-        fs_unbound_conf = os.path.join(self.fs_tempdir, 'usr/local/etc/unbound/unbound.conf')
-        self.assertTrue('interface: 192.168.0.1' in open(fs_unbound_conf).read())
+        fs_unbound_conf = os.path.join(
+            self.fs_tempdir, 'usr/local/etc/unbound/unbound.conf')
+        self.assertTrue(
+            'interface: 192.168.0.1' in open(fs_unbound_conf).read())
 
     def test_directory_is_renamed(self):
         from ..rendering import python_formatting_renderer
@@ -125,7 +134,8 @@ class RenderStructureTest(unittest.TestCase):
             verbose=False,
             renderer=python_formatting_renderer,
         )
-        self.assertTrue(os.path.exists('%s/%s' % (self.fs_tempdir, '/partsblubber/part')))
+        self.assertTrue(os.path.exists('%s/%s' %
+                        (self.fs_tempdir, '/partsblubber/part')))
 
     def test_copied_file_is_renamed(self):
         from ..rendering import python_formatting_renderer
@@ -135,7 +145,8 @@ class RenderStructureTest(unittest.TestCase):
             verbose=False,
             renderer=python_formatting_renderer,
         )
-        self.assertTrue(os.path.exists('%s/%s' % (self.fs_tempdir, '/foo.blubber.rst')))
+        self.assertTrue(os.path.exists('%s/%s' %
+                        (self.fs_tempdir, '/foo.blubber.rst')))
 
     def test_rendered_file_is_renamed(self):
         from ..rendering import python_formatting_renderer
@@ -169,12 +180,14 @@ class RenderStructureTest(unittest.TestCase):
             verbose=False,
             renderer=python_formatting_renderer,
         )
-        fs_rendered = '%s/%s' % (self.fs_tempdir, '/blatherparts/blubber_etc/blubber.conf')
+        fs_rendered = '%s/%s' % (self.fs_tempdir,
+                                 '/blatherparts/blubber_etc/blubber.conf')
         self.assertTrue(os.path.exists(fs_rendered))
         self.assertTrue('blather = blubber' in open(fs_rendered).read())
 
 
 class RenderTemplateTest(unittest.TestCase):
+
     def setUp(self):
         import mrbobby
         self.fs_tempdir = mkdtemp()
@@ -220,7 +233,7 @@ class RenderTemplateTest(unittest.TestCase):
         """if the source is a template, it is rendered and the target file drops
         the `.bobby` suffix."""
         fs_source = os.path.join(self.fs_templates,
-            'unbound/usr/local/etc/unbound/unbound.conf.bobby')
+                                 'unbound/usr/local/etc/unbound/unbound.conf.bobby')
         fs_rendered = self.call_FUT(
             fs_source,
             dict(ip_addr='192.168.0.1',
@@ -230,7 +243,7 @@ class RenderTemplateTest(unittest.TestCase):
 
     def test_rendered_permissions_preserved(self):
         fs_source = os.path.join(self.fs_templates,
-            'unbound/usr/local/etc/unbound/unbound.conf.bobby')
+                                 'unbound/usr/local/etc/unbound/unbound.conf.bobby')
         os.chmod(fs_source, 771)
         fs_rendered = self.call_FUT(
             fs_source,
@@ -240,7 +253,7 @@ class RenderTemplateTest(unittest.TestCase):
 
     def test_render_missing_key(self):
         t = os.path.join(self.fs_templates,
-            'unbound/usr/local/etc/unbound/unbound.conf.bobby')
+                         'unbound/usr/local/etc/unbound/unbound.conf.bobby')
 
         self.assertRaises(KeyError,
                           self.call_FUT,
@@ -249,7 +262,7 @@ class RenderTemplateTest(unittest.TestCase):
 
     def test_render_namespace(self):
         t = os.path.join(self.fs_templates,
-            'missing_namespace_key/foo.bobby')
+                         'missing_namespace_key/foo.bobby')
 
         filename = self.call_FUT(t, {'foo.bar': '1'})
         with open(filename) as f:
@@ -258,7 +271,7 @@ class RenderTemplateTest(unittest.TestCase):
     def test_render_namespace_jinja2(self):
         from ..rendering import jinja2_renderer
         t = os.path.join(self.fs_templates,
-            'missing_namespace_key/foo_jinja2.bobby')
+                         'missing_namespace_key/foo_jinja2.bobby')
 
         filename = self.call_FUT(t,
                                  {'foo.bar': '2'},
@@ -269,7 +282,7 @@ class RenderTemplateTest(unittest.TestCase):
     def test_render_newline(self):
         from ..rendering import jinja2_renderer
         t = os.path.join(self.fs_templates,
-            'missing_namespace_key/foo_jinja2.bobby')
+                         'missing_namespace_key/foo_jinja2.bobby')
 
         tfile = open(t, 'r')
         self.assertEqual(tfile.read(), '{{{foo.bar}}}')
@@ -282,7 +295,7 @@ class RenderTemplateTest(unittest.TestCase):
 
     def test_render_namespace_missing_key(self):
         t = os.path.join(self.fs_templates,
-            'missing_namespace_key/foo.bobby')
+                         'missing_namespace_key/foo.bobby')
 
         self.assertRaises(KeyError,
                           self.call_FUT,
@@ -293,7 +306,7 @@ class RenderTemplateTest(unittest.TestCase):
         from jinja2 import UndefinedError
         from ..rendering import jinja2_renderer
         t = os.path.join(self.fs_templates,
-            'missing_namespace_key/foo_jinja2.bobby')
+                         'missing_namespace_key/foo_jinja2.bobby')
 
         self.assertRaises(UndefinedError,
                           self.call_FUT,
@@ -306,7 +319,7 @@ class RenderTemplateTest(unittest.TestCase):
         from ..rendering import jinja2_renderer
 
         t = os.path.join(self.fs_templates,
-            'strict_undefined.bobby')
+                         'strict_undefined.bobby')
 
         self.assertRaises(UndefinedError,
                           self.call_FUT,
@@ -366,7 +379,7 @@ class RenderFilenameTest(unittest.TestCase):
         from .test_plugins import bad_mock_ep
         import mrbobby.plugins
         ep = mrbobby.plugins.load_plugin('render_filename',
-                                        bad_mock_ep)
+                                         bad_mock_ep)
         mrbobby.plugins.PLUGINS['render_filename'] = ep
         self.assertRaises(AttributeError, self.call_FUT, '+/bla/+/+bar+',
                           dict(bar='em0'))
@@ -375,7 +388,7 @@ class RenderFilenameTest(unittest.TestCase):
         from .test_plugins import will_continue_mock_ep
         import mrbobby.plugins
         ep = mrbobby.plugins.load_plugin('render_filename',
-                                        will_continue_mock_ep)
+                                         will_continue_mock_ep)
         mrbobby.plugins.PLUGINS['render_filename'] = ep
         t = self.call_FUT('+/bla/+/+bar+',
                           dict(bar='em0'))
@@ -385,7 +398,7 @@ class RenderFilenameTest(unittest.TestCase):
         from .test_plugins import unordered_pkg_mock_entries
         import mrbobby.plugins
         ep = mrbobby.plugins.load_plugin('render_filename',
-                                        unordered_pkg_mock_entries)
+                                         unordered_pkg_mock_entries)
         mrbobby.plugins.PLUGINS['render_filename'] = ep
         t = self.call_FUT('+/bla/+/+bar+',
                           dict(bar='em0'))

@@ -27,11 +27,13 @@ def nest_variables(variables):
                 location[segment] = dict()
             location = location[segment]
             if not isinstance(location, dict):
-                raise ConfigurationError('Cannot assign "%s" to group "%s", subgroup is already used.' % (value, key))
+                raise ConfigurationError(
+                    'Cannot assign "%s" to group "%s", subgroup is already used.' % (value, key))
 
         k = segments[-1]
         if isinstance(location.get(k, None), dict):
-            raise ConfigurationError('Cannot assign "%s" to group "%s", subgroup is already used.' % (value, k))
+            raise ConfigurationError(
+                'Cannot assign "%s" to group "%s", subgroup is already used.' % (value, k))
         if six.PY3:  # pragma: no cover
             location[k] = value
         else:  # pragma: no cover
@@ -56,12 +58,14 @@ def parse_config(configname):
         if parser.has_section(section):
             items = parser.items(section)
             if section == 'questions':
-                config[section + "_order"] = [key[:-9] for key, value in items if key.endswith('.question')]
+                config[section + "_order"] = [key[:-9]
+                                              for key, value in items if key.endswith('.question')]
             if section in ['variables', 'defaults']:
                 if six.PY3:  # pragma: no cover
                     config[section] = dict(items)
                 else:  # pragma: no cover
-                    config[section] = dict([(key, value.decode('utf-8')) for key, value in items])
+                    config[section] = dict([(key, value.decode('utf-8'))
+                                           for key, value in items])
             else:
                 config[section] = nest_variables(dict(items))
         else:

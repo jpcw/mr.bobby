@@ -23,14 +23,14 @@ class load_pluginsTest(unittest.TestCase):
     def test_load_plugin_max_order_is_loaded(self):
         import mrbobby.plugins
         ep = mrbobby.plugins.load_plugin('render_filename',
-                                        unordered_pkg_mock_entries)
+                                         unordered_pkg_mock_entries)
         self.assertEqual(ep.order, 20)
 
     def test_load_plugin_target_is_loaded(self):
         import mrbobby.plugins
         ep = mrbobby.plugins.load_plugin('render_filename',
-                                        unordered_pkg_mock_entries,
-                                        target=15)
+                                         unordered_pkg_mock_entries,
+                                         target=15)
 
         self.assertEqual(ep.order, 15)
 

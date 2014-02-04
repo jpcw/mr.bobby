@@ -212,7 +212,8 @@ class write_configTest(unittest.TestCase):
         )
 
         with codecs.open(self.tmpfile, 'r', 'utf-8') as f:
-            self.assertEqual(f.read(), six.u("[variables]\nfoo.bar = %s\n\n") % var_)
+            self.assertEqual(
+                f.read(), six.u("[variables]\nfoo.bar = %s\n\n") % var_)
 
     def test_non_str(self):
         self.call_FUT(

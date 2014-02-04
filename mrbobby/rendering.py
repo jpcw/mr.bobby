@@ -19,7 +19,8 @@ jinja2_env = Environment(
     undefined=StrictUndefined,
 )
 
-jinja2_renderer = lambda s, v: jinja2_env.from_string(s).render(parse_variables(v))
+jinja2_renderer = lambda s, v: jinja2_env.from_string(
+    s).render(parse_variables(v))
 python_formatting_renderer = lambda s, v: s % v
 
 DEFAULT_IGNORED = ['.mrbobby.ini', '.DS_Store']
@@ -53,7 +54,7 @@ def matches_any(filename, patterns):
 
 
 def render_structure(fs_source_root, fs_target_root, variables, verbose,
-        renderer, ignored_files):
+                     renderer, ignored_files):
     """Recursively copies the given filesystem path `fs_source_root_ to a target directory `fs_target_root`.
 
     Any files ending in `.bobby` are rendered as templates using the given
@@ -68,7 +69,8 @@ def render_structure(fs_source_root, fs_target_root, variables, verbose,
     if not isinstance(fs_source_root, six.text_type):  # pragma: no cover
         fs_source_root = six.u(fs_source_root)
     for fs_source_dir, local_directories, local_files in os.walk(fs_source_root):
-        fs_target_dir = path.abspath(path.join(fs_target_root, path.relpath(fs_source_dir, fs_source_root)))
+        fs_target_dir = path.abspath(
+            path.join(fs_target_root, path.relpath(fs_source_dir, fs_source_root)))
         for local_file in local_files:
             if matches_any(local_file, ignored_files):
                 continue
@@ -82,7 +84,8 @@ def render_structure(fs_source_root, fs_target_root, variables, verbose,
                     renderer,
                 )
         for local_directory in local_directories:
-            abs_dir = render_filename(path.join(fs_target_dir, local_directory), variables)
+            abs_dir = render_filename(
+                path.join(fs_target_dir, local_directory), variables)
             if abs_dir is not None:
                 if not path.exists(abs_dir):
                     if verbose:
@@ -97,7 +100,8 @@ def render_template(fs_source, fs_target_dir, variables, verbose, renderer):
             filename = filename.split('.bobby')[0]
             fs_target_path = path.join(fs_target_dir, filename)
             if verbose:
-                print(six.u("Rendering %s to %s") % (fs_source, fs_target_path))
+                print(six.u("Rendering %s to %s") %
+                      (fs_source, fs_target_path))
             fs_source_mode = stat.S_IMODE(os.stat(fs_source).st_mode)
             with codecs.open(fs_source, 'r', 'utf-8') as f:
                 source_output = f.read()
@@ -140,7 +144,10 @@ def render_filename(filename, variables):
     for replaceable in replaceables:
         actual_replaceable = replaceable.replace('+', '')
         if actual_replaceable in variables:
-            filename = filename.replace(replaceable, variables[actual_replaceable])
+            filename = filename.replace(
+                replaceable, variables[actual_replaceable])
         else:
-            raise KeyError('%s key part of filename %s was not found in variables %s' % (actual_replaceable, filename, variables))
+            raise KeyError(
+                '%s key part of filename %s was not found in variables %s' %
+                (actual_replaceable, filename, variables))
     return filename

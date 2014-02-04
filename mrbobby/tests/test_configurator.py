@@ -42,6 +42,7 @@ def dummy_question_hook_skipquestion(configurator, question):  # pragma: no cove
 
 
 class DummyConfigurator(object):
+
     def __init__(self,
                  defaults=None,
                  bobbyconfig=None,
@@ -81,7 +82,8 @@ class resolve_dotted_funcTest(unittest.TestCase):
 
     def test_error_no_func(self):
         from ..bobbyexceptions import ConfigurationError
-        self.assertRaises(ConfigurationError, self.call_FUT, 'mrbobby.rendering:foo')
+        self.assertRaises(ConfigurationError, self.call_FUT,
+                          'mrbobby.rendering:foo')
 
     def test_return_func(self):
         from mrbobby.rendering import jinja2_renderer
@@ -135,7 +137,8 @@ class parse_templateTest(unittest.TestCase):
     def test_zipfile_not_zipfile(self, mock_urlretrieve):
         from ..bobbyexceptions import ConfigurationError
         mock_urlretrieve.side_effect = self.fake_wrong_zip
-        self.assertRaises(ConfigurationError, self.call_FUT, 'http://foobar.com/bla.tar#some/dir')
+        self.assertRaises(ConfigurationError, self.call_FUT,
+                          'http://foobar.com/bla.tar#some/dir')
 
     def fake_wrong_zip(self, url, path):
         with open(path, 'w') as f:
@@ -177,7 +180,8 @@ class ConfiguratorTest(unittest.TestCase):
         self.assertRaises(ConfigurationError,
                           self.call_FUT,
                           'mrbobby.tests:templates/questions1',
-                          os.path.join(os.path.dirname(__file__), 'templates/questions1/foo'),
+                          os.path.join(os.path.dirname(__file__),
+                                       'templates/questions1/foo'),
                           {})
 
     def test_parse_questions_basic(self):
@@ -216,7 +220,8 @@ class ConfiguratorTest(unittest.TestCase):
         self.assertEqual(c.questions[0].name, six.u('foo'))
         self.assertEqual(c.questions[0].default, "True")
         self.assertEqual(c.questions[0].required, False)
-        self.assertEqual(c.questions[0].help, six.u('Blabla blabal balasd a a sd'))
+        self.assertEqual(c.questions[0].help,
+                         six.u('Blabla blabal balasd a a sd'))
         self.assertEqual(c.questions[0].command_prompt, dummy_prompt)
 
     def test_ask_questions_empty(self):
@@ -235,7 +240,8 @@ class ConfiguratorTest(unittest.TestCase):
                 self.target_dir,
                 {}]
         c = self.call_FUT(*args)
-        c.questions = [Question('foo.bar', 'fobar?'), Question('moo', "Moo?", command_prompt=lambda x: 'moo.')]
+        c.questions = [Question('foo.bar', 'fobar?'), Question(
+            'moo', "Moo?", command_prompt=lambda x: 'moo.')]
         c.variables = {'foo.bar': 'answer'}
         c.ask_questions()
         self.assertEquals(c.variables, {'foo.bar': 'answer', 'moo': 'moo.'})
@@ -249,7 +255,8 @@ class ConfiguratorTest(unittest.TestCase):
         c = self.call_FUT(*args)
         c.render()
         with open(os.path.join(self.target_dir, '.mrbobby.ini')) as f:
-            self.assertEquals(f.read().strip(), """[variables]\nfoo.bar = 3""".strip())
+            self.assertEquals(f.read().strip(),
+                              """[variables]\nfoo.bar = 3""".strip())
 
     @mock.patch('mrbobby.configurator.render_structure')
     def test_remember_answers_default(self, mock_render_structure):
@@ -259,19 +266,20 @@ class ConfiguratorTest(unittest.TestCase):
             variables={'foo.bar': '3'},
         )
         c.render()
-        self.assertFalse(os.path.exists(os.path.join(self.target_dir, '.mrbobby.ini')))
+        self.assertFalse(
+            os.path.exists(os.path.join(self.target_dir, '.mrbobby.ini')))
 
     def test_renderer_default(self):
         from ..rendering import jinja2_renderer
         c = self.call_FUT('mrbobby.tests:templates/empty',
-                      self.target_dir,
-                      {})
+                          self.target_dir,
+                          {})
         self.assertEqual(c.renderer, jinja2_renderer)
 
     def test_renderer_set(self):
         c = self.call_FUT('mrbobby.tests:templates/renderer',
-                      self.target_dir,
-                      {})
+                          self.target_dir,
+                          {})
         self.assertEqual(c.renderer, dummy_renderer)
 
     def test_pre_post_render_hooks_multiple(self):
@@ -281,9 +289,11 @@ class ConfiguratorTest(unittest.TestCase):
             {},
         )
         self.assertEqual(c.pre_render, [dummy_render_hook, mocked_render_hook])
-        self.assertEqual(c.post_render, [dummy_render_hook, mocked_render_hook])
+        self.assertEqual(c.post_render,
+                         [dummy_render_hook, mocked_render_hook])
         c.render()
-        self.assertEqual(mocked_render_hook.mock_calls, [mock.call(c), mock.call(c)])
+        self.assertEqual(mocked_render_hook.mock_calls,
+                         [mock.call(c), mock.call(c)])
 
     def test_ignored(self):
         c = self.call_FUT('mrbobby.tests:templates/ignored',
@@ -311,7 +321,8 @@ class QuestionTest(unittest.TestCase):
 
     def test_repr(self):
         q = self.call_FUT('foo', 'Why?')
-        self.assertEqual(repr(q), six.u("<Question name=foo question='Why?' default=None required=False>"))
+        self.assertEqual(
+            repr(q), six.u("<Question name=foo question='Why?' default=None required=False>"))
 
     def test_ask(self):
 
@@ -387,7 +398,8 @@ class QuestionTest(unittest.TestCase):
                           'Why?',
                           command_prompt=cmd)
         q.ask(DummyConfigurator())
-        self.assertEqual(sys.stdout.getvalue(), 'There is no additional help text.\n\n')
+        self.assertEqual(sys.stdout.getvalue(),
+                         'There is no additional help text.\n\n')
         sys.stdout = sys.__stdout__
 
     def test_ask_help(self):
@@ -434,11 +446,14 @@ class QuestionTest(unittest.TestCase):
         mocked_pre_ask_question.assert_called_with(c, q)
 
     def test_pre_ask_question_multiple(self):
-        q = self.call_FUT('foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook mrbobby.tests.test_configurator:dummy_question_hook2")
-        self.assertEqual(q.pre_ask_question, [dummy_question_hook, dummy_question_hook2])
+        q = self.call_FUT(
+            'foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook mrbobby.tests.test_configurator:dummy_question_hook2")
+        self.assertEqual(q.pre_ask_question,
+                         [dummy_question_hook, dummy_question_hook2])
 
     def test_pre_ask_question_skipquestion(self):
-        q = self.call_FUT('foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook_skipquestion")
+        q = self.call_FUT(
+            'foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook_skipquestion")
         self.assertEquals(q.ask(DummyConfigurator()), None)
 
     def test_post_ask_question(self):

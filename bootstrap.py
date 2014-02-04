@@ -77,7 +77,7 @@ except ImportError:
 
     # XXX use a more permanent ez_setup.py URL when available.
     exec(urlopen('https://bitbucket.org/pypa/setuptools/raw/c49c651997ebec3b40b71139e8a6a6a15c62c848/ez_setup.py'
-                ).read(), ez)
+                 ).read(), ez)
     setup_args = dict(to_dir=tmpeggs, download_delay=0)
     ez['use_setuptools'](**setup_args)
 
@@ -104,7 +104,7 @@ find_links = os.environ.get(
     options.find_links or
     ('http://downloads.buildout.org/'
      if options.accept_buildout_test_releases else None)
-    )
+)
 if find_links:
     cmd.extend(['-f', find_links])
 

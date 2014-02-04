@@ -30,7 +30,8 @@ class TestCLI(unittest.TestCase):
         self.assertRaises(SystemExit, self.call_FUT, 'foo')
 
     def test_dummy_template(self):
-        template_dir = os.path.join(os.path.dirname(__file__), 'templates', 'empty')
+        template_dir = os.path.join(
+            os.path.dirname(__file__), 'templates', 'empty')
         self.call_FUT('-O', self.output_dir, template_dir)
 
     @mock.patch('mrbobby.cli.Configurator')
@@ -42,21 +43,28 @@ class TestCLI(unittest.TestCase):
         self.assertFalse(os.path.exists(template_dir))
 
     def test_dummy_template_create_target_directory(self):
-        template_dir = os.path.join(os.path.dirname(__file__), 'templates', 'empty')
-        self.call_FUT('-O', os.path.join(self.output_dir, 'notexist'), template_dir)
+        template_dir = os.path.join(
+            os.path.dirname(__file__), 'templates', 'empty')
+        self.call_FUT(
+            '-O', os.path.join(self.output_dir, 'notexist'), template_dir)
         self.assertTrue(os.path.isdir(self.output_dir))
 
     def test_list_questions(self):
-        template_dir = os.path.join(os.path.dirname(__file__), 'templates', 'empty')
+        template_dir = os.path.join(
+            os.path.dirname(__file__), 'templates', 'empty')
         self.call_FUT('--list-questions', template_dir)
 
     def test_missing_mrbobbyini_in_template(self):
-        template_dir = os.path.join(os.path.dirname(__file__), 'templates', 'unbound', 'etc')
-        self.assertRaises(SystemExit, self.call_FUT, '-O', self.output_dir, template_dir)
+        template_dir = os.path.join(
+            os.path.dirname(__file__), 'templates', 'unbound', 'etc')
+        self.assertRaises(SystemExit, self.call_FUT, '-O',
+                          self.output_dir, template_dir)
 
     def test_no_config_file(self):
-        template_dir = os.path.join(os.path.dirname(__file__), 'templates', 'empty')
-        self.assertRaises(SystemExit, self.call_FUT, '-c', '/notexists', template_dir)
+        template_dir = os.path.join(
+            os.path.dirname(__file__), 'templates', 'empty')
+        self.assertRaises(SystemExit, self.call_FUT, '-c',
+                          '/notexists', template_dir)
 
     def test_zip_file_wrong(self):
         self.assertRaises(SystemExit, self.call_FUT, 'foobar.zip')
@@ -99,7 +107,8 @@ only_file_2 = file1
 overriden_by_file_2 = file2
                     """)
 
-        template_dir = os.path.join(os.path.dirname(__file__), 'templates', 'multiconfig')
+        template_dir = os.path.join(
+            os.path.dirname(__file__), 'templates', 'multiconfig')
         self.call_FUT('-v',
                       '-n',
                       '-O', self.output_dir,

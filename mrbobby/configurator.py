@@ -48,7 +48,8 @@ def resolve_dotted_func(name):
     if func:
         return func
     else:
-        raise ConfigurationError("There is no object named %s in module %s" % (func_name, module_name))
+        raise ConfigurationError(
+            "There is no object named %s in module %s" % (func_name, module_name))
 
 
 def maybe_resolve_dotted_func(name):
@@ -95,11 +96,13 @@ def parse_template(template_name):
         path = os.path.realpath(template_name)
 
     if not os.path.isdir(path):
-        raise ConfigurationError('Template directory does not exist: %s' % path)
+        raise ConfigurationError(
+            'Template directory does not exist: %s' % path)
     return path, False
 
 
 class Configurator(object):
+
     """Controller that figures out settings, asks questions and renders
     the directory structure.
 
@@ -142,7 +145,8 @@ class Configurator(object):
         # check if user is trying to specify output dir into template dir
         if self.template_dir in os.path.commonprefix([self.target_directory,
                                                       self.template_dir]):
-            raise ConfigurationError('You can not use target directory inside the template')
+            raise ConfigurationError(
+                'You can not use target directory inside the template')
 
         if not os.path.isdir(self.target_directory):
             os.makedirs(self.target_directory)
@@ -150,13 +154,15 @@ class Configurator(object):
         # parse template configuration file
         template_config = os.path.join(self.template_dir, '.mrbobby.ini')
         if not os.path.exists(template_config):
-            raise TemplateConfigurationError('Config not found: %s' % template_config)
+            raise TemplateConfigurationError(
+                'Config not found: %s' % template_config)
         self.config = parse_config(template_config)
 
         # parse questions from template configuration file
         self.raw_questions = self.config['questions']
         if self.raw_questions:
-            self.questions = self.parse_questions(self.raw_questions, self.config['questions_order'])
+            self.questions = self.parse_questions(
+                self.raw_questions, self.config['questions_order'])
         else:
             self.questions = []
 
@@ -165,17 +171,22 @@ class Configurator(object):
         self.bobbyconfig = update_config(bobbyconfig, self.config['mr.bobby'])
         self.verbose = maybe_bool(self.bobbyconfig.get('verbose', False))
         self.quiet = maybe_bool(self.bobbyconfig.get('quiet', False))
-        self.remember_answers = maybe_bool(self.bobbyconfig.get('remember_answers', False))
+        self.remember_answers = maybe_bool(
+            self.bobbyconfig.get('remember_answers', False))
         self.ignored_files = self.bobbyconfig.get('ignored_files', '').split()
-        self.plugins_options['render_filename'] = self.bobbyconfig.get('rdr_fname_plugin_target', None)
+        self.plugins_options['render_filename'] = self.bobbyconfig.get(
+            'rdr_fname_plugin_target', None)
 
         # load plugins
-        plugins.PLUGINS = dict((key, plugins.load_plugin(key, target=value)) for key, value in self.plugins_options.items())
+        plugins.PLUGINS = dict((key, plugins.load_plugin(key, target=value))
+                               for key, value in self.plugins_options.items())
 
         # parse template settings
         self.templateconfig = self.config['template']
-        self.post_render = [resolve_dotted_func(f) for f in self.templateconfig.get('post_render', '').split()]
-        self.pre_render = [resolve_dotted_func(f) for f in self.templateconfig.get('pre_render', '').split()]
+        self.post_render = [resolve_dotted_func(f)
+                            for f in self.templateconfig.get('post_render', '').split()]
+        self.pre_render = [resolve_dotted_func(f)
+                           for f in self.templateconfig.get('pre_render', '').split()]
         self.renderer = resolve_dotted_func(
             self.templateconfig.get('renderer', 'mrbobby.rendering:jinja2_renderer'))
 
@@ -199,7 +210,7 @@ class Configurator(object):
                          self.variables)
         if self.post_render:
             for current_func in self.post_render:
-                 current_func(self)
+                current_func(self)
 
     def parse_questions(self, config, order):
         questions = []
@@ -210,7 +221,8 @@ class Configurator(object):
             for k in key_parts:
                 conf = conf[k]
             # filter out subnamespaces
-            conf = dict([(k, v) for k, v in conf.items() if not isinstance(v, dict)])
+            conf = dict([(k, v)
+                        for k, v in conf.items() if not isinstance(v, dict)])
             question = Question(name=question_key, **conf)
             questions.append(question)
         return questions
@@ -225,13 +237,15 @@ class Configurator(object):
     def ask_questions(self):
         """Loops through questions and asks for input if variable is not yet set.
         """
-        # TODO: if users want to manipulate questions order, this is curently not possible.
+        # TODO: if users want to manipulate questions order, this is curently
+        # not possible.
         for question in self.questions:
             if question.name not in self.variables:
                 self.variables[question.name] = question.ask(self)
 
 
 class Question(object):
+
     """Question configuration. Parameters are used to configure questioning
     and possible validation of the answer.
 
@@ -266,8 +280,10 @@ class Question(object):
         self.required = maybe_bool(required)
         self.command_prompt = maybe_resolve_dotted_func(command_prompt)
         self.help = help
-        self.pre_ask_question = [resolve_dotted_func(f) for f in pre_ask_question.split()]
-        self.post_ask_question = [resolve_dotted_func(f) for f in post_ask_question.split()]
+        self.pre_ask_question = [resolve_dotted_func(f)
+                                 for f in pre_ask_question.split()]
+        self.post_ask_question = [resolve_dotted_func(f)
+                                  for f in post_ask_question.split()]
         self.extra = extra
 
     def __repr__(self):
@@ -282,7 +298,8 @@ class Question(object):
         """
         correct_answer = None
         self.default = configurator.defaults.get(self.name, self.default)
-        non_interactive = maybe_bool(configurator.bobbyconfig.get('non_interactive', False))
+        non_interactive = maybe_bool(
+            configurator.bobbyconfig.get('non_interactive', False))
         if non_interactive:
             self.command_prompt = lambda x: ''
 
@@ -297,7 +314,8 @@ class Question(object):
 
                 # prepare question
                 if self.default:
-                    question = six.u("--> %s [%s]: ") % (self.question, self.default)
+                    question = six.u(
+                        "--> %s [%s]: ") % (self.question, self.default)
                 else:
                     question = six.u("--> %s: ") % self.question
 
@@ -305,7 +323,8 @@ class Question(object):
                 if six.PY3:  # pragma: no cover
                     answer = self.command_prompt(question).strip()
                 else:  # pragma: no cover
-                    answer = self.command_prompt(question.encode('utf-8')).strip().decode('utf-8')
+                    answer = self.command_prompt(
+                        question.encode('utf-8')).strip().decode('utf-8')
 
                 # display additional help
                 if answer == "?":
@@ -320,12 +339,15 @@ class Question(object):
                 # if we don't have an answer, take default
                 elif self.default is not None:
                     correct_answer = maybe_bool(self.default)
-                # if we don't have an answer or default value and is required, reask
+                # if we don't have an answer or default value and is required,
+                # reask
                 elif self.required and not correct_answer:
                     if non_interactive:
-                        raise ConfigurationError('non-interactive mode: question %s is required but not answered.' % self.name)
+                        raise ConfigurationError(
+                            'non-interactive mode: question %s is required but not answered.' % self.name)
                     else:
-                        # TODO: we don't cover this as coverage seems to ignore it
+                        # TODO: we don't cover this as coverage seems to ignore
+                        # it
                         continue  # pragma: no cover
                 else:
                     correct_answer = answer
@@ -333,10 +355,12 @@ class Question(object):
                 # hook: post ask question + validation
                 for func in self.post_ask_question:
                     try:
-                        correct_answer = func(configurator, self, correct_answer)
+                        correct_answer = func(
+                            configurator, self, correct_answer)
                     except ValidationError as exc:
                         if non_interactive:
-                            raise ConfigurationError('non-interactive mode: question %s failed validation.' % self.name)
+                            raise ConfigurationError(
+                                'non-interactive mode: question %s failed validation.' % self.name)
                         else:
                             correct_answer = None
                             print("ERROR: " + str(exc))

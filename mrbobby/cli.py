@@ -48,22 +48,22 @@ parser.add_argument('-w', '--remember-answers',
                     default=False,
                     help='Remember answers to .mrbobby.ini file inside output directory')
 parser.add_argument('-n', '--non-interactive',
-                  dest='non_interactive',
-                  action='store_true',
-                  default=False,
-                  help="Don't prompt for input. Fail if questions are required but not answered")
+                    dest='non_interactive',
+                    action='store_true',
+                    default=False,
+                    help="Don't prompt for input. Fail if questions are required but not answered")
 parser.add_argument('-q', '--quiet',
                     action="store_true",
                     default=False,
                     help='Suppress all but necessary output')
-#parser.add_argument('--dry-run',
-                  #dest='simulate',
-                  #action='store_true',
-                  #help='Simulate but do no work')
-#parser.add_argument('--overwrite',
-                  #dest='overwrite',
-                  #action='store_true',
-                  #help='Always overwrite')
+# parser.add_argument('--dry-run',
+                  # dest='simulate',
+                  # action='store_true',
+                  # help='Simulate but do no work')
+# parser.add_argument('--overwrite',
+                  # dest='overwrite',
+                  # action='store_true',
+                  # help='Always overwrite')
 parser.add_argument('-r', '--rdr-fname-plugin-target',
                     type=int,
                     default=None,
@@ -122,10 +122,12 @@ def main(args=sys.argv[1:]):
         'rdr_fname_plugin_target': options.rdr_fname_plugin_target,
     }
 
-    bobbyconfig = update_config(update_config(global_bobbyconfig, file_bobbyconfig), cli_bobbyconfig)
-    variables = update_config(update_config(global_variables, file_variables), cli_variables)
-    defaults = update_config(update_config(global_defaults, file_defaults), cli_defaults)
-
+    bobbyconfig = update_config(
+        update_config(global_bobbyconfig, file_bobbyconfig), cli_bobbyconfig)
+    variables = update_config(
+        update_config(global_variables, file_variables), cli_variables)
+    defaults = update_config(
+        update_config(global_defaults, file_defaults), cli_defaults)
 
     if bobbyconfig['verbose']:
         print('Configuration provided:')
@@ -137,7 +139,7 @@ def main(args=sys.argv[1:]):
             print(line)
         # TODO: implement variables on cli
         #print('[variables] from command line interface')
-        #for line in pretty_format_config(file_variables):
+        # for line in pretty_format_config(file_variables):
         #    print(line)
         print('[defaults] from ~/.mrbobby')
         for line in pretty_format_config(original_global_defaults):
@@ -147,7 +149,7 @@ def main(args=sys.argv[1:]):
             print(line)
         # TODO: implement defaults on cli
         #print('[defaults] from command line interface')
-        #for line in pretty_format_config(file_defaults):
+        # for line in pretty_format_config(file_defaults):
         #    print(line)
         print('[mr.bobby] from ~/.mrbobby')
         for line in pretty_format_config(original_global_bobbyconfig):
@@ -172,16 +174,19 @@ def main(args=sys.argv[1:]):
             return config.print_questions()
 
         if config.questions and not maybe_bool(bobbyconfig['quiet']):
-            print("Welcome to mr.bobby interactive mode. Before we generate directory structure, some questions need to be answered.")
+            print(
+                "Welcome to mr.bobby interactive mode. Before we generate directory structure, some questions need to be answered.")
             print("")
             print("Answer with a question mark to display help.")
-            print("Values in square brackets at the end of the questions show the default value if there is no answer.")
+            print(
+                "Values in square brackets at the end of the questions show the default value if there is no answer.")
             print("\n")
             config.ask_questions()
             print("")
         config.render()
         if not maybe_bool(bobbyconfig['quiet']):
-            print("Generated file structure at %s" % os.path.realpath(options.target_directory))
+            print("Generated file structure at %s" %
+                  os.path.realpath(options.target_directory))
         return
     except TemplateConfigurationError as e:
         parser.error(six.u('TemplateConfigurationError: %s') % e.args[0])

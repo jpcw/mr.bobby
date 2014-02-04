@@ -47,17 +47,19 @@ def load_plugin(plugin, entries=entries, target=None):
     if entries:
         plugins = [(ep, '%d-%s-%s' % (getattr(ep.load(False), 'order', 10),
                                       ep.module_name, ep.name))
-                    for ep in entries if ep.name == plugin]
+                   for ep in entries if ep.name == plugin]
         ordered_plugins = sorted(plugins, key=operator.itemgetter(1))
         if target is not None:
             targets = [ep for ep in ordered_plugins
-                                if ep[1].split('-')[0] == str(target)]
+                       if ep[1].split('-')[0] == str(target)]
             if targets:
                 return targets[-1][0].load(False)
             else:
-                registered = [int(ep[1].split('-')[0]) for ep in ordered_plugins]
-                raise AttributeError('No plugin target %d ! Registered are %s' % (target,
-                                                                                  registered))
+                registered = [int(ep[1].split('-')[0])
+                              for ep in ordered_plugins]
+                raise AttributeError(
+                    'No plugin target %d ! Registered are %s' % (target,
+                                                                 registered))
 
         return ordered_plugins[-1][0].load(False)
 
