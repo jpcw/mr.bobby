@@ -289,9 +289,9 @@ class Question(object):
         try:
             while correct_answer is None:
                 # hook: pre ask question
-                for f in self.pre_ask_question:
+                for func in self.pre_ask_question:
                     try:
-                        f(configurator, self)
+                        func(configurator, self)
                     except SkipQuestion:
                         return
 
