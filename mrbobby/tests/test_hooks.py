@@ -9,7 +9,8 @@ class to_booleanTest(TestCase):
 
     def call_FUT(self, answer, configurator=None, question=None):
         from ..hooks import to_boolean
-        return to_boolean(configurator or DummyConfigurator(), question, answer)
+        return to_boolean(configurator or DummyConfigurator(),
+                          question, answer)
 
     def test_boolean(self):
         for value in ['y', 'Y', 'yes', 'True', '1']:
