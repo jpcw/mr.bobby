@@ -19,15 +19,16 @@ from .parsing import parse_config, update_config, pretty_format_config
 parser = argparse.ArgumentParser(description='Filesystem template renderer')
 parser.add_argument('template',
                     nargs="?",
-                    help="""Template name to use for rendering. See
-                    http://mrbobby.readthedocs.org/en/latest/userguide.html#usage
-                    for a guide to template syntax
-                    """)
+                    help="Template name to use for rendering. See"
+                    "http://mrbobby.readthedocs.org/en/latest/userguide.html"
+                    "#usage"
+                    "for a guide to template syntax")
 
 parser.add_argument('-O', '--target-directory',
                     default=".",
                     dest="target_directory",
-                    help='Where to output rendered structure. Defaults to current directory')
+                    help='Where to output rendered structure. Defaults to '
+                    'current directory')
 
 parser.add_argument('-v', '--verbose',
                     action="store_true",
