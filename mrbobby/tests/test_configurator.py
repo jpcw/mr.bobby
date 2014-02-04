@@ -37,7 +37,7 @@ def dummy_render_hook(configurator):  # pragma: no cover
     return
 
 
-def dummy_question_hook_skipquestion(configurator, question):  # pragma: no cover
+def dummy_question_hook_skipquestion(configurator, question):  # pragma: no cover   # NOQA
     from ..bobbyexceptions import SkipQuestion
     raise SkipQuestion
 
@@ -323,7 +323,7 @@ class QuestionTest(unittest.TestCase):
     def test_repr(self):
         q = self.call_FUT('foo', 'Why?')
         self.assertEqual(
-            repr(q), six.u("<Question name=foo question='Why?' default=None required=False>"))
+            repr(q), six.u("<Question name=foo question='Why?' default=None required=False>"))  # NOQA
 
     def test_ask(self):
 
@@ -441,27 +441,27 @@ class QuestionTest(unittest.TestCase):
         q = self.call_FUT('foo',
                           'Why?',
                           command_prompt=lambda x: '',
-                          pre_ask_question="mrbobby.tests.test_configurator:mocked_pre_ask_question")
+                          pre_ask_question="mrbobby.tests.test_configurator:mocked_pre_ask_question")  # NOQA
         c = DummyConfigurator()
         q.ask(c)
         mocked_pre_ask_question.assert_called_with(c, q)
 
     def test_pre_ask_question_multiple(self):
         q = self.call_FUT(
-            'foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook mrbobby.tests.test_configurator:dummy_question_hook2")
+            'foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook mrbobby.tests.test_configurator:dummy_question_hook2")  # NOQA
         self.assertEqual(q.pre_ask_question,
                          [dummy_question_hook, dummy_question_hook2])
 
     def test_pre_ask_question_skipquestion(self):
         q = self.call_FUT(
-            'foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook_skipquestion")
+            'foo', 'Why?', pre_ask_question="mrbobby.tests.test_configurator:dummy_question_hook_skipquestion")  # NOQA
         self.assertEquals(q.ask(DummyConfigurator()), None)
 
     def test_post_ask_question(self):
         q = self.call_FUT('foo',
                           'Why?',
                           command_prompt=lambda x: '',
-                          post_ask_question="mrbobby.tests.test_configurator:mocked_post_ask_question")
+                          post_ask_question="mrbobby.tests.test_configurator:mocked_post_ask_question")  # NOQA
         c = DummyConfigurator()
         answer = q.ask(c)
         mocked_post_ask_question.assert_called_with(c, q, '')
@@ -470,7 +470,7 @@ class QuestionTest(unittest.TestCase):
     def test_post_ask_question_multiple(self):
         q = self.call_FUT('foo',
                           'Why?',
-                          post_ask_question="mrbobby.tests.test_configurator:dummy_question_hook mrbobby.tests.test_configurator:dummy_question_hook2")
+                          post_ask_question="mrbobby.tests.test_configurator:dummy_question_hook mrbobby.tests.test_configurator:dummy_question_hook2")  # NOQA
         self.assertEqual(q.post_ask_question,
                          [dummy_question_hook, dummy_question_hook2])
 
@@ -490,18 +490,18 @@ class QuestionTest(unittest.TestCase):
         q = self.call_FUT('foo',
                           'Why?',
                           command_prompt=cmd,
-                          post_ask_question="mrbobby.tests.test_configurator:mocked_post_ask_question_validationerror")
+                          post_ask_question="mrbobby.tests.test_configurator:mocked_post_ask_question_validationerror")  # NOQA
         c = DummyConfigurator()
         self.assertEqual(q.ask(c), 'moo')
 
     def test_post_ask_question_validationerror_non_interactive(self):
         from ..bobbyexceptions import ConfigurationError, ValidationError
 
-        mocked_post_ask_question_validationerror_non_interactive.side_effect = ValidationError
+        mocked_post_ask_question_validationerror_non_interactive.side_effect = ValidationError  # NOQA
 
         q = self.call_FUT('foo',
                           'Why?',
                           command_prompt=lambda x: '',
-                          post_ask_question="mrbobby.tests.test_configurator:mocked_post_ask_question_validationerror_non_interactive")
+                          post_ask_question="mrbobby.tests.test_configurator:mocked_post_ask_question_validationerror_non_interactive")  # NOQA
         c = DummyConfigurator(bobbyconfig={'non_interactive': 'True'})
         self.assertRaises(ConfigurationError, q.ask, c)
