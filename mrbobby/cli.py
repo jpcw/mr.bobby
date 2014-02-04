@@ -22,40 +22,48 @@ parser.add_argument('template',
                     help="""Template name to use for rendering. See
                     http://mrbobby.readthedocs.org/en/latest/userguide.html#usage
                     for a guide to template syntax
-
                     """)
+
 parser.add_argument('-O', '--target-directory',
                     default=".",
                     dest="target_directory",
                     help='Where to output rendered structure. Defaults to current directory')
+
 parser.add_argument('-v', '--verbose',
                     action="store_true",
                     default=False,
                     help='Print more output for debugging')
+
 parser.add_argument('-c', '--config',
                     action="store",
                     help='Configuration file to specify either [mr.bobby] or [variables] sections')
+
 parser.add_argument('-V', '--version',
                     action="store_true",
                     default=False,
                     help='Display version number')
+
 parser.add_argument('-l', '--list-questions',
                     action="store_true",
                     default=False,
                     help='List all questions needed for the template')
+
 parser.add_argument('-w', '--remember-answers',
                     action="store_true",
                     default=False,
                     help='Remember answers to .mrbobby.ini file inside output directory')
+
 parser.add_argument('-n', '--non-interactive',
                     dest='non_interactive',
                     action='store_true',
                     default=False,
                     help="Don't prompt for input. Fail if questions are required but not answered")
+
 parser.add_argument('-q', '--quiet',
                     action="store_true",
                     default=False,
                     help='Suppress all but necessary output')
+
 # parser.add_argument('--dry-run',
                   # dest='simulate',
                   # action='store_true',
