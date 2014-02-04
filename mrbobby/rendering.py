@@ -55,10 +55,13 @@ def matches_any(filename, patterns):
 
 def render_structure(fs_source_root, fs_target_root, variables, verbose,
                      renderer, ignored_files):
-    """Recursively copies the given filesystem path `fs_source_root_ to a target directory `fs_target_root`.
+    """
+    Recursively copies the given filesystem path `fs_source_root_` to a
+    target directory `fs_target_root`.
 
     Any files ending in `.bobby` are rendered as templates using the given
-    renderer using the variables dictionary, thereby losing the `.bobby` suffix.
+    renderer using the variables dictionary, thereby losing the `.bobby`
+    suffix.
 
     strings wrapped in `+` signs in file- or directory names will be replaced
     with values from the variables, i.e. a file named `+name+.py.bobby` given a
@@ -68,9 +71,10 @@ def render_structure(fs_source_root, fs_target_root, variables, verbose,
     ignored_files.extend(DEFAULT_IGNORED)
     if not isinstance(fs_source_root, six.text_type):  # pragma: no cover
         fs_source_root = six.u(fs_source_root)
-    for fs_source_dir, local_directories, local_files in os.walk(fs_source_root):
+    for fs_source_dir, local_dirs, local_files in os.walk(fs_source_root):
         fs_target_dir = path.abspath(
-            path.join(fs_target_root, path.relpath(fs_source_dir, fs_source_root)))
+            path.join(fs_target_root, path.relpath(fs_source_dir,
+                                                   fs_source_root)))
         for local_file in local_files:
             if matches_any(local_file, ignored_files):
                 continue
@@ -83,7 +87,7 @@ def render_structure(fs_source_root, fs_target_root, variables, verbose,
                     verbose,
                     renderer,
                 )
-        for local_directory in local_directories:
+        for local_directory in local_dirs:
             abs_dir = render_filename(
                 path.join(fs_target_dir, local_directory), variables)
             if abs_dir is not None:
@@ -122,7 +126,8 @@ def render_template(fs_source, fs_target_dir, variables, verbose, renderer):
 def render_filename(filename, variables):
     """Overridable (via entry_points) rendering.
 
-    Now plugguable, see :ref:`writing your plugin` to modify your replacements or other variables substitutions.
+    Now plugguable, see :ref:`writing your plugin` to
+    modify your replacements or other variables substitutions.
 
     This is a useful option to generate templates or conditionnal rendering.
 
