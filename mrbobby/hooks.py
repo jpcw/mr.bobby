@@ -1,4 +1,6 @@
-"""Use any of hooks below or write your own. You are welcome to contribute them!"""
+"""
+Use any of hooks below or write your own. You are welcome to contribute them !
+"""
 
 from .bobbyexceptions import ValidationError
 
@@ -14,7 +16,8 @@ def to_boolean(configurator, question, answer):
         idiot.question = Are you young?
         idiot.post_ask_question = mrbobby.hooks:to_boolean
 
-    Following variables can be converted to a boolean: **y, n, yes, no, true, false, 1, 0**
+    Following variables can be converted to a boolean:
+    **y, n, yes, no, true, false, 1, 0**
     """
     value = answer.lower()
     if value in ['y', 'yes', 'true', '1']:
@@ -27,8 +30,8 @@ def to_boolean(configurator, question, answer):
 
 def show_message(configurator):
     """
-    If you want to display a message to the user when rendering is complete, you
-    can use this function as :ref:`post-render-hook`:
+    If you want to display a message to the user when rendering is complete,
+    you can use this function as :ref:`post-render-hook`:
 
     .. code-block:: ini
 
@@ -36,7 +39,8 @@ def show_message(configurator):
         post_render = mrbobby.hooks:show_message
         message = Well done, %(author.name)s, your code is ready!
 
-    As shown above, you can use standard Python formatting in ``post_render_msg``.
+    As shown above, you can use standard Python formatting in
+    ``post_render_msg``.
     """
     message = configurator.templateconfig.get('message', '')
     if not configurator.quiet and message:
