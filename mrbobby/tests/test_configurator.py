@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# flake8: ignore=E501
 
 import unittest
 import os
