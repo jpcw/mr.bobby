@@ -59,11 +59,11 @@ def maybe_resolve_dotted_func(name):
 
 
 def maybe_bool(value):
-    if value == "True":
-        return True
-    if value == "False":
-        return False
-    else:
+    values = {"true": True,
+              "false": False}
+    try:
+        return values[value.lower()]
+    except (KeyError, AttributeError):
         return value
 
 
