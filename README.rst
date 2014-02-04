@@ -1,5 +1,7 @@
 **Mister Bobby the Builder** creates directory skeletons.
 
+.. image:: https://travis-ci.org/jpcw/mr.bobby.png?branch=master :target: https://travis-ci.org/jpcw/mr.bobby
+
 Documentation
 =============
 
