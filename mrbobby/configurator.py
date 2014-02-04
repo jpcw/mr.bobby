@@ -49,7 +49,8 @@ def resolve_dotted_func(name):
         return func
     else:
         raise ConfigurationError(
-            "There is no object named %s in module %s" % (func_name, module_name))
+            "There is no object named %s in "
+            "module %s" % (func_name, module_name))
 
 
 def maybe_resolve_dotted_func(name):
@@ -102,8 +103,8 @@ def parse_template(template_name):
 
 
 class Configurator(object):
-
-    """Controller that figures out settings, asks questions and renders
+    """
+    Controller that figures out settings, asks questions and renders
     the directory structure.
 
     :param template: Template name
@@ -112,13 +113,16 @@ class Configurator(object):
     :param variables: Given variables to questions
     :param defaults: Overriden defaults of the questions
 
-    Additional to above settings, `Configurator` exposes following attributes:
+    Additional to above settings, `Configurator` exposes following
+    attributes:
 
     - :attr:`template_dir` is root directory of the template
-    - :attr:`is_tempdir` if template directory is temporary (when using zipfile)
+    - :attr:`is_tempdir` if template directory is temporary (when using
+    zipfile)
     - :attr:`templateconfig` dictionary parsed from `template` section
     - :attr:`questions` ordered list of `Question` instances to be asked
-    - :attr:`bobbyconfig` dictionary parsed from `mrbobbyx` section of the config
+    - :attr:`bobbyconfig` dictionary parsed from `mrbobbyx` section of
+    the config
 
     """
 
@@ -183,12 +187,13 @@ class Configurator(object):
 
         # parse template settings
         self.templateconfig = self.config['template']
-        self.post_render = [resolve_dotted_func(f)
-                            for f in self.templateconfig.get('post_render', '').split()]
-        self.pre_render = [resolve_dotted_func(f)
-                           for f in self.templateconfig.get('pre_render', '').split()]
+        self.post_render = [resolve_dotted_func(func)
+                            for func in self.templateconfig.get('post_render', '').split()]  # NOQA
+        self.pre_render = [resolve_dotted_func(func)
+                           for func in self.templateconfig.get('pre_render', '').split()]  # NOQA
         self.renderer = resolve_dotted_func(
-            self.templateconfig.get('renderer', 'mrbobby.rendering:jinja2_renderer'))
+            self.templateconfig.get('renderer',
+                                    'mrbobby.rendering:jinja2_renderer'))
 
     def render(self):
         """
@@ -235,7 +240,8 @@ class Configurator(object):
             # TODO: keep order
 
     def ask_questions(self):
-        """Loops through questions and asks for input if variable is not yet set.
+        """
+        Loops through questions and asks for input if variable is not yet set.
         """
         # TODO: if users want to manipulate questions order, this is curently
         # not possible.
@@ -246,7 +252,8 @@ class Configurator(object):
 
 class Question(object):
 
-    """Question configuration. Parameters are used to configure questioning
+    """
+    Question configuration. Parameters are used to configure questioning
     and possible validation of the answer.
 
     :param name: Unique, namespaced name of the question
@@ -254,13 +261,18 @@ class Question(object):
     :param default: Default value of the question
     :param required: Is question required?
     :type required: bool
-    :param command_prompt: Function to executed to ask the question given question text
+    :param command_prompt: Function to executed to ask the question given
+    question text
     :param help: Optional help message
-    :param pre_ask_question: Space limited functions in dotted notation to ask before the question is asked
-    :param post_ask_question: Space limited functions in dotted notation to ask aster the question is asked
-    :param \**extra: Any extra parameters stored for possible extending of `Question` functionality
+    :param pre_ask_question: Space limited functions in dotted notation to
+    ask before the question is asked
+    :param post_ask_question: Space limited functions in dotted notation to
+    ask aster the question is asked
+    :param \**extra: Any extra parameters stored for possible extending of
+    `Question` functionality
 
-    Any of above parameters can be accessed as an attribute of `Question` instance.
+    Any of above parameters can be accessed as an attribute of `Question`
+    instance.
 
     """
 
@@ -288,12 +300,14 @@ class Question(object):
 
     def __repr__(self):
         return six.u("<Question name=%(name)s question='%(question)s'"
-                     " default=%(default)s required=%(required)s>") % self.__dict__
+                     " default=%(default)s "
+                     "required=%(required)s>") % self.__dict__
 
     def ask(self, configurator):
         """Eventually, ask the question.
 
-        :param configurator: :class:`mrbobby.configurator.Configurator` instance
+        :param configurator: :class:`mrbobby.configurator.Configurator`
+        instance
 
         """
         correct_answer = None
