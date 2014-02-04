@@ -114,7 +114,7 @@ class parse_configTest(unittest.TestCase):
         urlretrieve.side_effect = write
 
         # TODO correct this test
-        #c = self.call_FUT(configname='http://nohost/mrbobby.ini')
+        c = self.call_FUT(configname='http://nohost/mrbobby.ini')  # NOQA
         #self.assertEqual(c['variables']['foo'], 'bar')
 
 
