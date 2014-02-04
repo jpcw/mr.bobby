@@ -126,7 +126,7 @@ def main(args=sys.argv[1:]):
     variables = update_config(update_config(global_variables, file_variables), cli_variables)
     defaults = update_config(update_config(global_defaults, file_defaults), cli_defaults)
 
-    c = None
+
     if bobbyconfig['verbose']:
         print('Configuration provided:')
         print('[variables] from ~/.mrbobby')
@@ -160,25 +160,26 @@ def main(args=sys.argv[1:]):
             print(line)
         print('\n')
 
+    config = None
     try:
-        c = Configurator(template=options.template,
-            target_directory=options.target_directory,
-            bobbyconfig=bobbyconfig,
-            variables=variables,
-            defaults=defaults)
+        config = Configurator(template=options.template,
+                              target_directory=options.target_directory,
+                              bobbyconfig=bobbyconfig,
+                              variables=variables,
+                              defaults=defaults)
 
         if options.list_questions:
-            return c.print_questions()
+            return config.print_questions()
 
-        if c.questions and not maybe_bool(bobbyconfig['quiet']):
+        if config.questions and not maybe_bool(bobbyconfig['quiet']):
             print("Welcome to mr.bobby interactive mode. Before we generate directory structure, some questions need to be answered.")
             print("")
             print("Answer with a question mark to display help.")
             print("Values in square brackets at the end of the questions show the default value if there is no answer.")
             print("\n")
-            c.ask_questions()
+            config.ask_questions()
             print("")
-        c.render()
+        config.render()
         if not maybe_bool(bobbyconfig['quiet']):
             print("Generated file structure at %s" % os.path.realpath(options.target_directory))
         return
@@ -187,8 +188,8 @@ def main(args=sys.argv[1:]):
     except ConfigurationError as e:
         parser.error(six.u('ConfigurationError: %s') % e.args[0])
     finally:
-        if c and c.is_tempdir:
-            shutil.rmtree(c.template_dir)
+        if config and config.is_tempdir:
+            shutil.rmtree(config.template_dir)
 
 
 if __name__ == '__main__':  # pragma: nocover
