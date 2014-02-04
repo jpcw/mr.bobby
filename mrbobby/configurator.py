@@ -331,15 +331,15 @@ class Question(object):
                     correct_answer = answer
 
                 # hook: post ask question + validation
-                for f in self.post_ask_question:
+                for func in self.post_ask_question:
                     try:
-                        correct_answer = f(configurator, self, correct_answer)
-                    except ValidationError as e:
+                        correct_answer = func(configurator, self, correct_answer)
+                    except ValidationError as exc:
                         if non_interactive:
                             raise ConfigurationError('non-interactive mode: question %s failed validation.' % self.name)
                         else:
                             correct_answer = None
-                            print("ERROR: " + str(e))
+                            print("ERROR: " + str(exc))
                             continue
         except KeyboardInterrupt:  # pragma: no cover
             print('\nExiting...')

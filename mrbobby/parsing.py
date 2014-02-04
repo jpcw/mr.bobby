@@ -83,22 +83,22 @@ def write_config(fs_config, section, data):
         if not six.PY3:  # pragma: no cover
             value = value.encode('utf-8')
         parser.set(section, key, value)
-    with open(fs_config, 'w') as f:
-        parser.write(f)
+    with open(fs_config, 'w') as tmp:
+        parser.write(tmp)
 
 
 def update_config(first_config, second_config):
-    for k, v in second_config.items():
-        if isinstance(v, collections.Mapping):
-            r = update_config(first_config.get(k, {}), v)
-            first_config[k] = r
+    for key, value in second_config.items():
+        if isinstance(value, collections.Mapping):
+            response = update_config(first_config.get(key, {}), value)
+            first_config[key] = response
         else:
-            first_config[k] = second_config[k]
+            first_config[key] = second_config[key]
     return first_config
 
 
 def pretty_format_config(config):
-    l = []
+    configlist = []
 
     def format_config(dict_, namespace=''):
         for key, value in dict_.items():
@@ -109,8 +109,8 @@ def pretty_format_config(config):
             if isinstance(value, dict):
                 format_config(value, namespace=namespace_new)
             else:
-                l.append("%s = %s" % (namespace_new, value))
+                configlist.append("%s = %s" % (namespace_new, value))
 
     format_config(config)
 
-    return sorted(l)
+    return sorted(configlist)
