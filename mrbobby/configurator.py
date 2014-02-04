@@ -180,12 +180,13 @@ class Configurator(object):
             self.templateconfig.get('renderer', 'mrbobby.rendering:jinja2_renderer'))
 
     def render(self):
-        """Render file structure given instance configuration. Basically calls
-        :func:`mrbobby.rendering.render_structure`.
+        """
+        Render file structure given instance configuration.
+        Basically calls :func:`mrbobby.rendering.render_structure`.
         """
         if self.pre_render:
-            for f in self.pre_render:
-                f(self)
+            for current_func in self.pre_render:
+                current_func(self)
         render_structure(self.template_dir,
                          self.target_directory,
                          self.variables,
@@ -197,8 +198,8 @@ class Configurator(object):
                          'variables',
                          self.variables)
         if self.post_render:
-            for f in self.post_render:
-                f(self)
+            for current_func in self.post_render:
+                 current_func(self)
 
     def parse_questions(self, config, order):
         q = []
