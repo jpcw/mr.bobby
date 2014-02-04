@@ -11,7 +11,7 @@ import mock
 import six
 
 
-class render_structureTest(unittest.TestCase):
+class RenderStructureTest(unittest.TestCase):
 
     def setUp(self):
         import mrbobby
@@ -174,7 +174,7 @@ class render_structureTest(unittest.TestCase):
         self.assertTrue('blather = blubber' in open(fs_rendered).read())
 
 
-class render_templateTest(unittest.TestCase):
+class RenderTemplateTest(unittest.TestCase):
     def setUp(self):
         import mrbobby
         self.fs_tempdir = mkdtemp()
@@ -315,7 +315,7 @@ class render_templateTest(unittest.TestCase):
                           renderer=jinja2_renderer)
 
 
-class render_filenameTest(unittest.TestCase):
+class RenderFilenameTest(unittest.TestCase):
 
     def setUp(self):
         import mrbobby
@@ -392,7 +392,7 @@ class render_filenameTest(unittest.TestCase):
         self.assertEqual(t, '+/bla/+/+bar+_fake_bar')
 
 
-class parse_variablesTest(unittest.TestCase):
+class ParseVariablesTest(unittest.TestCase):
 
     def test_complex_example(self):
         from ..rendering import parse_variables
