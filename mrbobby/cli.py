@@ -36,7 +36,8 @@ parser.add_argument('-v', '--verbose',
 
 parser.add_argument('-c', '--config',
                     action="store",
-                    help='Configuration file to specify either [mr.bobby] or [variables] sections')
+                    help='Configuration file to specify either [mr.bobby] or '
+                    '[variables] sections')
 
 parser.add_argument('-V', '--version',
                     action="store_true",
@@ -51,13 +52,15 @@ parser.add_argument('-l', '--list-questions',
 parser.add_argument('-w', '--remember-answers',
                     action="store_true",
                     default=False,
-                    help='Remember answers to .mrbobby.ini file inside output directory')
+                    help='Remember answers to .mrbobby.ini file inside output '
+                    'directory')
 
 parser.add_argument('-n', '--non-interactive',
                     dest='non_interactive',
                     action='store_true',
                     default=False,
-                    help="Don't prompt for input. Fail if questions are required but not answered")
+                    help="Don't prompt for input. Fail if questions are "
+                    "required but not answered")
 
 parser.add_argument('-q', '--quiet',
                     action="store_true",
@@ -183,11 +186,13 @@ def main(args=sys.argv[1:]):
 
         if config.questions and not maybe_bool(bobbyconfig['quiet']):
             print(
-                "Welcome to mr.bobby interactive mode. Before we generate directory structure, some questions need to be answered.")
+                "Welcome to mr.bobby interactive mode. Before we generate "
+                "directory structure, some questions need to be answered.")
             print("")
             print("Answer with a question mark to display help.")
             print(
-                "Values in square brackets at the end of the questions show the default value if there is no answer.")
+                "Values in square brackets at the end of the questions show "
+                "the default value if there is no answer.")
             print("\n")
             config.ask_questions()
             print("")
