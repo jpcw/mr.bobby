@@ -9,3 +9,5 @@
 /htmlcov
 /docs/build/
 /build/
+.installed.cfg
+develop-eggs/
