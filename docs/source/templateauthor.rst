@@ -68,18 +68,18 @@ Questions will be asked in the order written in `.mrbobby.ini`.
 *******************************
 
 
-================= ================= =================================================================================================
-  Parameter         Default          Explanation
-================= ================= =================================================================================================
-name                                Required. Unique identifier for the question
-question                            Required. Question given interactively to a user when generating structure
-default           None              Default value when no answer is given. Can be a `dotted notation`
-required          False             Specify if question must be answered
-command_prompt    :func:`raw_input` Function that accepts a question and asks user for the answer
-help              ""                Extra help returned when user inputs a question mark
-pre_ask_question  None              :term:`dotted notation` function to run before asking the question
-post_ask_question None              :term:`dotted notation` function to run after asking the question (also does validation)
-================= ================= =================================================================================================
+================== ================= =================================================================================================
+  Parameter          Default           Explanation
+================== ================= =================================================================================================
+name                                 Required. Unique identifier for the question
+question                             Required. Question given interactively to a user when generating structure
+default            None              Default value when no answer is given. Can be a `dotted notation`
+required           False             Specify if question must be answered
+command_prompt     :func:`raw_input` Function that accepts a question and asks user for the answer
+help               ""                Extra help returned when user inputs a question mark
+pre_ask_question   None              :term:`dotted notation` function to run before asking the question
+post_ask_question  None              :term:`dotted notation` function to run after asking the question (also does validation)
+================== ================= =================================================================================================
 
 Common needs for templating
 ---------------------------

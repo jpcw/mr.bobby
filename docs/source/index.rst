@@ -2,6 +2,8 @@ Welcome to mr.bobby's documentation!
 ==================================
 
 :Original Authors: Tom Lazar <tom@tomster.org>, Domen Kožar <domen@dev.si>
+:Orginal ource code: `github.com project <https://github.com/jpcw/mr.bobby>`_
+:Original Bug tracker: `github.com issues <https://github.com/jpcw/mr.bobby/issues>`_
 
 After fork
 -----------

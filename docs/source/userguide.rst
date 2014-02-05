@@ -202,34 +202,32 @@ don't do anything special besides providing readability.
 
 
 ``mr.bobby`` section reference
-****************************
+*******************************
 
-================  ===============================  =======================================================================
+================  ===============================  ========================================================================
   Parameter         Default                          Explanation
-================  ===============================  =======================================================================
+================  ===============================  ========================================================================
 ignored_files     No patterns                      Multiple Unix-style patterns to specify which files should be ignored:
                                                    for instance, to ignore, Vim swap files, specify ``*.swp``
 non_interactive   False                            Don't prompt for input. Fail if questions are required but not answered
 quiet             False                            Don't output anything except necessary
 remember_answers  False                            Write answers to ``.mrbobby.ini`` file inside output directory
 verbose           False                            Output more information, useful for debugging
-================  ===============================  =======================================================================
+================  ===============================  ========================================================================
 
 
 
 Collection of community managed templates
------------------------------------------
+------------------------------------------
 
 You are encouraged to use the ``bobbytemplates.something`` Python egg namespace to write
 templates and contribute them to this list by making a `pull request <https://github.com/jpcw/mr.bobby>`_.
 
-- `bobbytemplates.ielectric <https://github.com/jpcw/bobbytemplates.ielectric>`_
-- `bobbytemplates.kotti <https://github.com/Kotti/bobbytemplates.kotti>`_
-- `bobbytemplates.niteoweb <https://github.com/niteoweb/bobbytemplates.niteoweb>`_
+- `bobbytemplates.jpcw <https://github.com/jpcw/bobbytemplates.jpcw>`_
 
 
 Collection of community plugins
--------------------------------
+--------------------------------
 
 You are encouraged to use the ``bobbyplugins.something`` Python egg namespace to write
 templates and contribute them to this list by making a `pull request <https://github.com/jpcw/mr.bobby>`_.
