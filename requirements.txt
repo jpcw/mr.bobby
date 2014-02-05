@@ -1,0 +1,1 @@
+-e git://github.com/jpcw/mr.bobby.git#egg=mr.bobby
