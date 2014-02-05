@@ -1,6 +1,10 @@
 Welcome to mr.bobby's documentation!
 ==================================
 
+:Original Authors: Tom Lazar <tom@tomster.org>, Domen Kožar <domen@dev.si>
+
+After fork
+-----------
 :Author: Cyprien Le Pannérer <cyplp@free.fr>, Jean-Philippe Camguilhem <jp.camguilhem@gmail.com>
 :Source code: `github.com project <https://github.com/jpcw/mr.bobby>`_
 :Bug tracker: `github.com issues <https://github.com/jpcw/mr.bobby/issues>`_
@@ -8,6 +12,12 @@ Welcome to mr.bobby's documentation!
 :Generated: |today|
 :Version: |release|
 
+mr.bobby is as a fork of the excellent mr.bob from 
+Tom Lazar and Domen Kožar 
+
+Why a fork?
+---------------
+..todo explain why here
 
 .. sidebar:: Features
 
