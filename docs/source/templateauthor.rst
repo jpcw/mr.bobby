@@ -237,7 +237,7 @@ Raise :exc:`mrbobby.bobbyexceptions.ValidationError` to re-ask the question.
 
 
 Hooks shipped with `mr.bobby`
-***************************
+*****************************
 
 See :mod:`mrbobby.hooks`.
 
@@ -245,10 +245,10 @@ See :mod:`mrbobby.hooks`.
 ``template`` section reference
 ------------------------------
 
-===================== =============================== ======================================================================================
-Parameter             Default                         Explanation
-===================== =============================== ======================================================================================
-renderer              mrbobby.rendering:jinja2_renderer Function for rendering templates in :term:`dotted notation`
-pre_render            None                            :term:`dotted notation` function to run before rendering the templates
-post_render           None                            :term:`dotted notation` function to run after rendering the templates
-===================== =============================== ======================================================================================
+===================== ================================== ======================================================================================
+Parameter             Default                              Explanation
+===================== ================================== ======================================================================================
+renderer              mrbobby.rendering:jinja2_renderer  Function for rendering templates in :term:`dotted notation`
+pre_render            None                               :term:`dotted notation` function to run before rendering the templates
+post_render           None                               :term:`dotted notation` function to run after rendering the templates
+===================== ================================== ======================================================================================

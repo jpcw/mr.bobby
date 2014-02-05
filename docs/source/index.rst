@@ -1,5 +1,5 @@
 Welcome to mr.bobby's documentation!
-==================================
+=====================================
 
 :Original Authors: Tom Lazar <tom@tomster.org>, Domen Kožar <domen@dev.si>
 :Orginal ource code: `github.com project <https://github.com/jpcw/mr.bobby>`_

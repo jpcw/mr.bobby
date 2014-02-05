@@ -8,6 +8,7 @@ http://mrbobby.readthedocs.org/
 TODO
 ====
 
+- [high] explain why a fork
 - [high] list-templates ala paster, declared via entry_points
 - [high] more flexibility on plugins
 - [high] template inheritance
