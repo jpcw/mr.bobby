@@ -202,10 +202,10 @@ def main(args=sys.argv[1:]):
             print("Generated file structure at %s" %
                   os.path.realpath(options.target_directory))
         return
-    except TemplateConfigurationError as e:
-        parser.error(six.u('TemplateConfigurationError: %s') % e.args[0])
-    except ConfigurationError as e:
-        parser.error(six.u('ConfigurationError: %s') % e.args[0])
+    except TemplateConfigurationError as exc:
+        parser.error(six.u('TemplateConfigurationError: %s') % exc.args[0])
+    except ConfigurationError as exc:
+        parser.error(six.u('ConfigurationError: %s') % exc.args[0])
     finally:
         if config and config.is_tempdir:
             shutil.rmtree(config.template_dir)
