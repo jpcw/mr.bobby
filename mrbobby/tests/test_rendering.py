@@ -384,30 +384,27 @@ class RenderFilenameTest(unittest.TestCase):
         self.assertRaises(KeyError, self.call_FUT, 'foo+bar+blub', dict())
 
     def test_plugin_rdr_filename_is_bad(self):
-        from .test_plugins import bad_mock_ep
+        from .test_plugins import bad_mock_ep as eps
         import mrbobby.plugins
-        ep = mrbobby.plugins.load_plugin('render_filename',
-                                         bad_mock_ep)
-        mrbobby.plugins.PLUGINS['render_filename'] = ep
+        mrbobby.plugins.PLUGINS['mr.bobby.render_filename'] = [ep.load(False)
+                                                               for ep in eps]
         self.assertRaises(AttributeError, self.call_FUT, '+/bla/+/+bar+',
                           dict(bar='em0'))
 
     def test_plugin_rdr_filename_will_continue(self):
-        from .test_plugins import will_continue_mock_ep
+        from .test_plugins import will_continue_mock_ep as eps
         import mrbobby.plugins
-        ep = mrbobby.plugins.load_plugin('render_filename',
-                                         will_continue_mock_ep)
-        mrbobby.plugins.PLUGINS['render_filename'] = ep
+        mrbobby.plugins.PLUGINS['mr.bobby.render_filename'] = [ep.load(False)
+                                                               for ep in eps]
         t = self.call_FUT('+/bla/+/+bar+',
                           dict(bar='em0'))
         self.assertEqual(t, 'fake_foo_+/bla/+/em0')
 
     def test_plugin_rdr_filename_will_not_continue(self):
-        from .test_plugins import unordered_pkg_mock_entries
+        from .test_plugins import will_not_continue_mock_ep as eps
         import mrbobby.plugins
-        ep = mrbobby.plugins.load_plugin('render_filename',
-                                         unordered_pkg_mock_entries)
-        mrbobby.plugins.PLUGINS['render_filename'] = ep
+        mrbobby.plugins.PLUGINS['mr.bobby.render_filename'] = [ep.load(False)
+                                                               for ep in eps]
         t = self.call_FUT('+/bla/+/+bar+',
                           dict(bar='em0'))
         self.assertEqual(t, '+/bla/+/+bar+_fake_bar')

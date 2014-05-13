@@ -178,13 +178,12 @@ class Configurator(object):
         self.remember_answers = maybe_bool(
             self.bobbyconfig.get('remember_answers', False))
         self.ignored_files = self.bobbyconfig.get('ignored_files', '').split()
-        self.plugins_options['render_filename'] = self.bobbyconfig.get(
-            'rdr_fname_plugin_target', None)
+        self.plugins_options['mr.bobby.render_filename'] = \
+            self.bobbyconfig.get('rdr_fname_plugin_target', None)
 
         # load plugins
         plugins.PLUGINS = dict((key, plugins.load_plugin(key, target=value))
                                for key, value in self.plugins_options.items())
-
         # parse template settings
         self.templateconfig = self.config['template']
         self.post_render = [resolve_dotted_func(func)

@@ -37,23 +37,26 @@ import operator
 import pkg_resources
 
 PLUGINS = {}
-entries = [entry for entry in
-           pkg_resources.iter_entry_points(group='mr.bobby.plugins')]
 
 
-def load_plugin(plugin, entries=entries, target=None):
+def load_plugin(plugin, target=None):
     """Load and sort possibles plugins from pkg."""
 
-    if entries:
+    if target == 0:
+        # unload entry_points
+        return
+    else:
+        entries = [entry for entry in
+                   pkg_resources.iter_entry_points(group=plugin)]
         plugins = [(ep, '%d-%s-%s' % (getattr(ep.load(False), 'order', 10),
                                       ep.module_name, ep.name))
-                   for ep in entries if ep.name == plugin]
+                   for ep in entries]
         ordered_plugins = sorted(plugins, key=operator.itemgetter(1))
         if target is not None:
             targets = [ep for ep in ordered_plugins
                        if ep[1].split('-')[0] == str(target)]
             if targets:
-                return targets[-1][0].load(False)
+                return [targets[-1][0].load(False)]
             else:
                 registered = [int(ep[1].split('-')[0])
                               for ep in ordered_plugins]
@@ -61,6 +64,6 @@ def load_plugin(plugin, entries=entries, target=None):
                     'No plugin target %d ! Registered are %s' % (target,
                                                                  registered))
 
-        return ordered_plugins[-1][0].load(False)
+        return [ep[0].load(False) for ep in ordered_plugins]
 
 # vim:set et sts=4 ts=4 tw=80:
