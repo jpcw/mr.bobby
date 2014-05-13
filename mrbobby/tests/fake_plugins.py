@@ -30,7 +30,6 @@ class BarRenderFilename():
 
 
 class BadRenderFilename():
-
     """A bad plugin which has not get_filename method."""
 
 

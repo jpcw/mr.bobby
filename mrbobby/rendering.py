@@ -133,15 +133,17 @@ def render_filename(filename, variables):
 
     """
 
-    plugin = plugins.PLUGINS.get('render_filename')
-    if plugin is not None:
-        if getattr(plugin, 'get_filename', None) is None:
-            raise AttributeError('get_filename method not found in plugin')
-        else:
-            plug_inst = plugin(filename, variables)
-            filename, will_continue = plug_inst.get_filename()
-            if filename is None or not will_continue:
-                return filename
+    rdr_fname_plugins = plugins.PLUGINS.get('mr.bobby.render_filename')
+    if rdr_fname_plugins is not None:
+        for plugin in rdr_fname_plugins:
+            if getattr(plugin, 'get_filename', None) is None:
+                raise AttributeError('get_filename method not found in plugin')
+            else:
+                plug_inst = plugin(filename, variables)
+                filename, will_continue = plug_inst.get_filename()
+                if filename is None or not will_continue:
+#                    break
+                    return filename
 
     variables_regex = re.compile(r"\+[^+%s]+\+" % re.escape(os.sep))
 
