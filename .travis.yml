@@ -6,6 +6,11 @@ python:
   - 3.3
   - pypy
 install:
+  - cd ../
+  - git clone https://github.com/jpcw/bobbyplugins.jpcw.git
+  - cd bobbyplugins.jpcw
+  - python setup.py install
+  - cd ../mr.bobby
   - python setup.py develop
   - easy_install mr.bobby[test]
 script:
