@@ -19,8 +19,8 @@ def to_boolean(configurator, question, answer):
     Following variables can be converted to a boolean:
     **y, n, yes, no, true, false, 1, 0**
     """
-#    if isinstance(answer, bool):
-#        return answer
+    if isinstance(answer, bool):
+        return answer
 #    import pdb; pdb.set_trace()  ## Breakpoint ##
     value = answer.lower()
     if value in ['y', 'yes', 'true', '1']:
